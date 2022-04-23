@@ -3,23 +3,35 @@
 
 const { flaschenpost } = require ('flaschenpost');
 
-const { getApi } = require ('./lib/getApi')
+const { getApi } = require ('./lib/getApi');
 
 const http = require ('http');
+const { InMemoryStore } = require('./lib/store/InMemoryStore');
+const { processenv } = require ('processenv');
 
-const { processenv } = require ('processenv')
+(async () => {
+    const logger = flaschenpost.getLogger();
 
-const logger = flaschenpost.getLogger();
+    const store = new InMemoryStore();
+    // const store = new MongoDbStore({
+    //     hostname : 'localhost',
+    //     port : 27017,
+    //     database : 'todos',
+    //     username : 'node',
+    //     password : 'node'
+    // });
+    
+    await store.initialize();
+    
+    const api = getApi({ store });
+    
+    const server = http.createServer(api);
+    
+    const port = processenv('PORT', 3_000);
+    
+    server.listen(port, () => {
+        logger.info ('Server started. \n', { port });
+    });
+})();
 
-const api = getApi();
-
-const server = http.createServer(api);
-
-const port = processenv('PORT', 3_000);
-
-server.listen(port, () => {
-    logger.info ('Server started. \n', { port });
-    // logger.info ('Server started. \n',  port );
-    // logger.info ('Server started. \n');
-});
 
