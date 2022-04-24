@@ -7,6 +7,11 @@
         "crypto": "^1.0.1",
         "express": "^4.17.3",
         "flaschenpost": "^5.1.1",
+        "mongodb": "^4.5.0",
         "processenv": "^3.0.9"
+    },
+    "scripts": {
+        "start-mongodb": "docker run -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=node -e MONGO_INITDB_ROOT_PASSWORD=node  --name mongodb  mongo:5.0.3",
+        "stop-mongodb": "docker kill mongodb && docker rm -v mongodb"
     }
 }
