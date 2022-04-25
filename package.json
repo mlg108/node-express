@@ -12,6 +12,6 @@
     },
     "scripts": {
         "start-mongodb": "docker run -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=node -e MONGO_INITDB_ROOT_PASSWORD=node  --name mongodb  mongo:5.0.3",
-        "stop-mongodb": "docker kill mongodb && docker rm -v mongodb"
+        "stop-mongodb": "docker kill mongodb && docker rm mongodb"
     }
 }
